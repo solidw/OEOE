@@ -1,5 +1,7 @@
 # OEOE
 
+> Operating for Employee Occasions & Exercise
+
 ### Tech Stack
 
 >  Electron, Node.js, Python
