@@ -55,3 +55,9 @@
    > git push
 
 4. merge와 pull requests는 팀장 solidw가 관리한다.
+
+
+
+### GANTT CHART
+
+![GANTT](./doc_data/GANTT.png)
