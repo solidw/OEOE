@@ -11,7 +11,7 @@
 - 고태완 : Back-End, 발표
 - 문준영 : Front-End
 - 임승민 : Front-End, css & 디자인
-- 최수연 : Back-End, css & 디자인,
+- 최수연 : Back-End, css & 디자인
 
 #### 데스크탑 어플리케이션
 
