@@ -32,3 +32,26 @@
 | 2019.11.20 | 최종 보고서, 소스코드 및 발표자료 제출 |
 | 2019.11.23 | 최종 평가                              |
 
+
+
+
+
+### GIT Guide for OEOE
+
+1. 작업 시작 전 
+
+   >  git pull
+
+2. clone한 파일을 VSCode 같은 IDE로 Open
+
+3. 원하는 기능을 추가 혹은 bug fix 등의 코딩 작업이 끝난 후
+
+   > git checkout -b 원하는 브랜치 이름
+   >
+   > git add .
+   >
+   > git commit -m "커밋내용"
+   >
+   > git push
+
+4. merge와 pull requests는 팀장 solidw가 관리한다.
