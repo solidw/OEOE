@@ -27,14 +27,14 @@ import {
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.common.black,
     },
   },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -47,22 +47,35 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "#424242",
+    color:"#9e9e9e",
+    
+   fontWeight:"bold",
+   fontSize:"20px",
     "&:hover": {
       backgroundColor: "#aaaaaa",
     },
+
   },
   link: {
-    color: "black",
+    color: "#9e9e9e",
+    
+   fontWeight:"bold"
   },
+  label:{
+    color: "#9e9e9e",
+   fontWeight:"bold"
+    
+  }
 }));
 
 const theme = createMuiTheme({
   palette: {
+    type:'dark',
     primary: grey,
     secondary: {
       main: "#424242",
     },
-  },
+  }
 });
 
 const LoginPage = () => {
@@ -71,17 +84,18 @@ const LoginPage = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <ThemeProvider theme={theme}>
+     
+      <div className={classes.paper} >
         <Avatar
           className={classes.avatar}
           src="https://pbs.twimg.com/profile_images/1070664386589704192/5XaWZmRW.jpg"
         ></Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" className={classes.label}>
           Login Page
         </Typography>
         <form className={classes.form} noValidate>
-          <ThemeProvider theme={theme}>
-            <TextField
+             <TextField
               variant="outlined"
               margin="normal"
               required
@@ -91,8 +105,6 @@ const LoginPage = () => {
               name="id"
               autoComplete="id"
             />
-          </ThemeProvider>
-          <ThemeProvider theme={theme}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -104,10 +116,11 @@ const LoginPage = () => {
               id="password"
               autoComplete="비밀번호"
             />
-          </ThemeProvider>
+
           <FormControlLabel
-            control={<Checkbox value="remember" color={grey[500]} />}
-            label="자동로그인"
+            control={<Checkbox value="remember" />}
+            label="자동로그인" className={classes.label}
+            
           />
           <Button
             type="submit"
@@ -116,8 +129,11 @@ const LoginPage = () => {
             color="primary"
             className={classes.submit}
           >
+            
+
             로그인
           </Button>
+          
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2" className={classes.link}>
@@ -132,6 +148,8 @@ const LoginPage = () => {
           </Grid>
         </form>
       </div>
+      
+      </ThemeProvider>
     </Container>
   );
 };

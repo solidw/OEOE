@@ -73,7 +73,7 @@ const UserPage = () => {
         </Box>
 
         <Box m={2}>
-          <Box display="flex" justifyContent="center" color={grey[800]}>
+          <Box display="flex" justifyContent="center" color={grey[800]} fontWeight="bold">
             15시간/52시간
           </Box>
           <Progressbar></Progressbar>

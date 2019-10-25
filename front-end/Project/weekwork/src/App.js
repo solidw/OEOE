@@ -1,13 +1,11 @@
-import React from "react";
-import LoginPage from "./Components/LoginPage";
-import ProgressBars from "./StyleComponents/Progressbar";
-import UserPage from "./Components/UserPage";
-function App() {
+import React from 'react'
+import LoginPage from './components/LoginPage'
+function App () {
   return (
     <>
-      <UserPage></UserPage>
+      <LoginPage />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
