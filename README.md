@@ -4,14 +4,14 @@
 
 ### Tech Stack
 
->  Electron, Node.js, Python
+>  Electron, Node.js Using REST API, Python, MongoDB
 
 #### Team Member
 
-- 고태완 : Back-End, 발표
+- 고태완 : Electron-UI 연결, Back-End
 - 문준영 : Front-End
 - 임승민 : Front-End, css & 디자인
-- 최수연 : Back-End, css & 디자인
+- 최수연 : Database, Back-End
 
 #### 데스크탑 어플리케이션
 
@@ -30,8 +30,6 @@
 | 2019.10.28 | 중간 발표                              |
 | 2019.11.20 | 최종 보고서, 소스코드 및 발표자료 제출 |
 | 2019.11.23 | 최종 평가                              |
-
-
 
 
 
