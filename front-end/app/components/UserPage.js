@@ -1,48 +1,44 @@
-import React from "react";
-import AlarmIcon from "@material-ui/icons/Alarm";
-import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
-import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
-import { withStyles } from "@material-ui/core/styles";
-import {
-  lightBlue,
-  grey,
-  blueGrey,
-} from "@material-ui/core/colors";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Progressbar from "../StyleComponents/Progressbar";
+import React from 'react';
+import AlarmIcon from '@material-ui/icons/Alarm';
+import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import { withStyles } from '@material-ui/core/styles';
+import { lightBlue, grey, blueGrey } from '@material-ui/core/colors';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Progressbar from '../StyleComponents/Progressbar';
 
 const EnterButton = withStyles(theme => ({
   root: {
     color: theme.palette.getContrastText(lightBlue[600]),
     backgroundColor: lightBlue[500],
-    "&:hover": {
-      backgroundColor: lightBlue[50],
+    '&:hover': {
+      backgroundColor: lightBlue[50]
     },
     width: 400,
     height: 57,
-    fontSize: 25,
-  },
+    fontSize: 25
+  }
 }))(Button);
 
 const ExitButton = withStyles(theme => ({
   root: {
     color: theme.palette.getContrastText(blueGrey[500]),
     backgroundColor: blueGrey[500],
-    "&:hover": {
-      backgroundColor: blueGrey[400],
+    '&:hover': {
+      backgroundColor: blueGrey[400]
     },
     width: 400,
     height: 57,
-    fontSize: 25,
-  },
+    fontSize: 25
+  }
 }))(Button);
 
 const UserPage = () => {
   return (
     <Container maxWidth="sm">
-      <Box border={1} width={402} borderColor={"#bdbdbd"} bgcolor={"#eeeeee"}>
+      <Box border={1} width={402} borderColor={'#bdbdbd'} bgcolor={'#eeeeee'}>
         <Box
           fontSize={30}
           color={grey[800]}
@@ -71,10 +67,15 @@ const UserPage = () => {
         </Box>
 
         <Box m={2}>
-          <Box display="flex" justifyContent="center" color={grey[800]} fontWeight="bold">
+          <Box
+            display="flex"
+            justifyContent="center"
+            color={grey[800]}
+            fontWeight="bold"
+          >
             15시간/52시간
           </Box>
-          <Progressbar></Progressbar>
+          <Progressbar />
         </Box>
 
         <Box m={2}>

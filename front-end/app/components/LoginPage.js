@@ -1,28 +1,22 @@
-import React from 'react'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import {
   makeStyles,
   createMuiTheme,
   ThemeProvider
-} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
+} from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-import {
-  lightBlue,
-  indigo,
-  grey,
-  blueGrey,
-  red
-} from '@material-ui/core/colors'
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -64,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     color: '#9e9e9e',
     fontWeight: 'bold'
   }
-}))
+}));
 
 const theme = createMuiTheme({
   palette: {
@@ -74,56 +68,56 @@ const theme = createMuiTheme({
       main: '#424242'
     }
   }
-})
+});
 
 const LoginPage = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div className={classes.paper}>
           <Avatar
             className={classes.avatar}
-            src='https://pbs.twimg.com/profile_images/1070664386589704192/5XaWZmRW.jpg'
+            src="https://pbs.twimg.com/profile_images/1070664386589704192/5XaWZmRW.jpg"
           />
-          <Typography component='h1' variant='h5' className={classes.label}>
+          <Typography component="h1" variant="h5" className={classes.label}>
             Login Page
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-              variant='outlined'
-              margin='normal'
+              variant="outlined"
+              margin="normal"
               required
               fullWidth
-              id='id'
-              label='아이디'
-              name='id'
-              autoComplete='id'
+              id="id"
+              label="아이디"
+              name="id"
+              autoComplete="id"
             />
             <TextField
-              variant='outlined'
-              margin='normal'
+              variant="outlined"
+              margin="normal"
               required
               fullWidth
-              name='password'
-              label='비밀번호'
-              type='password'
-              id='password'
-              autoComplete='비밀번호'
+              name="password"
+              label="비밀번호"
+              type="password"
+              id="password"
+              autoComplete="비밀번호"
             />
 
             <FormControlLabel
-              control={<Checkbox value='remember' />}
-              label='자동로그인'
+              control={<Checkbox value="remember" />}
+              label="자동로그인"
               className={classes.label}
             />
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               className={classes.submit}
             >
               로그인
@@ -131,12 +125,12 @@ const LoginPage = () => {
 
             <Grid container>
               <Grid item xs>
-                <Link href='#' variant='body2' className={classes.link}>
+                <Link href="#" variant="body2" className={classes.link}>
                   아이디/비밀번호 찾기
                 </Link>
               </Grid>
               <Grid item>
-                <Link href='#' variant='body2' className={classes.link}>
+                <Link href="#" variant="body2" className={classes.link}>
                   회원가입
                 </Link>
               </Grid>
@@ -145,7 +139,7 @@ const LoginPage = () => {
         </div>
       </ThemeProvider>
     </Container>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
