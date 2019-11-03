@@ -5,7 +5,7 @@ import UserPage from './components/UserPage'
 function App () {
   return (
     <>
-      <UserPage />
+      <LoginPage></LoginPage>
     </>
   )
 }
