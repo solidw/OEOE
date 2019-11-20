@@ -36,3 +36,7 @@ var router = require('./routes')(app, [WorkData, Employee, Report])
 var server = app.listen(port, function(){
  console.log("Express server has started on port " + port)
 });
+// error control
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500).json(response.error(err.status || 500));
+});
