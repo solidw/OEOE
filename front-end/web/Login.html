@@ -15,15 +15,15 @@
 <h1>OEOE</h1>
 </div>
         <div class="container">
-            <form action="/php/upload.php" class="" id="enrolform" method="post"enctype="multipart/form-data">
+            <form action="" class="" id="enrolform" method="post"enctype="multipart/form-data">
                 <div class="form-group_">
                 <input type="text" name="id" id="id" placeholder="로그인"class="form-control_" required="true"></div>
                 <div class="form-group_">                                                                                 
                 <input type="password" name="pw" id="pw_" placeholder="비밀번호"class="form-control_" required="true" required></div>       
                 <div class="form-group_">
-                <input  type="button" class="btn btn-primary" id="sub_" type="submit" value="로그인"></div>          
+                <input  type="button" onclick="login()" class="btn btn-primary" id="sub_"  value="로그인"></div>          
             </form>
         </div>
-
+        <script type="text/javascript" src="./JavaScript/Login.js"></script>
 </body>
 </html>
