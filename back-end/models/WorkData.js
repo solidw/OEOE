@@ -9,7 +9,7 @@ var WorkDataSchema = new Schema({
       workOn: Date,
       workOff: Date,
       outworkTimeTable: [{
-        
+        outworkTime:Date,
         longitude:Number,
         latitude:Number,
       }],
@@ -35,15 +35,17 @@ for(var i =1; i<=10; i++){
         var offhour = makeRandom(17,21);
         var minute = makeRandom(00, 60);
         var workinghours = makeRandom(0, 50);
-        var ondate = new Date(2019, 10, j, onhour, minute).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
-        var offdate = new Date(2019, 10, j, offhour, minute).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
-        var newworkdata = new WorkData({id:'test'+i, TimeTable: {workOn: ondate, workOff:offdate, longitude:120, latitude:130, finish_latitude:130, finish_latitude: 120, workingTimePerWeek: workinghours}});
-        newworkdata.save(function(error, data){
+        var ondate = new Date(2019, 10, j, onhour, minute).toLocaleString();
+        var offdate = new Date(2019, 10, j, offhour, minute).toLocaleString();
+
+        var outworkArray = new Array();
+        var newworkdata = new WorkData({id:'test'+i, TimeTable: {workOn: ondate, workOff:offdate, 
+          outworkTimeTable : outworkArray.push({outworkTime: new Date(2019, 10, j, 14, minute), longitude:100, latitude:170}), finish_latitude:130, finish_longitude: 120, workingTimePerWeek: workinghours}});
+          newworkdata.save(function(error, data){
             if(error){
-                console.log(error);
+               // console.log(error);
             }
         });
-		console.log(ondate);
     }
 }
 for(var i =1; i<=10; i++){
@@ -52,12 +54,12 @@ for(var i =1; i<=10; i++){
     var offhour = makeRandom(16,18);
     var minute = makeRandom(00, 60);
     var workinghours = makeRandom(0, 8);
-	var ondate = new Date(2019, 10, j, onhour, minute).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
-	var offdate = new Date(2019, 10, j, offhour, minute).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'});
-    var newworkdata = new WorkData({id:'test'+i, TimeTable: {workOn: ondate, workOff:offdate, longitude:120, latitude:130, finish_latitude:130, finish_latitude: 120, workingTimePerWeek: workinghours}});
+    var ondate = new Date(2019, 10, j, onhour, minute).toLocaleString();
+    var offdate = new Date(2019, 10, j, offhour, minute).toLocaleString();
+    var newworkdata = new WorkData({id:'test'+i, TimeTable: {workOn: ondate, workOff:offdate, longitude:120, latitude:130, finish_latitude:130, finish_longitude: 120, workingTimePerWeek: workinghours}});
     newworkdata.save(function(error, data){
         if(error){
-            console.log(error);
+           // console.log(error);
         }
     });
   }

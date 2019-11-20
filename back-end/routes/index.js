@@ -175,8 +175,13 @@ app.get('/api/StandardInformation', function(req, res){
       var length = workdatas.length;
       var recentWorkTime = workdatas[length-1].TimeTable.workOn;
       var Available = true;
-      if(recentWorkTime != null && recentWorkTime.getDate() == date.getDate()){ 
-        Available = true;
+      if(recentWorkTime != null && recentWorkTime.getDate() == date.getDate()){
+        if(workdatas[length-1].TimeTable.workOff == undefined){
+          Available = true;
+        }
+        else{
+          Available = false;
+        } 
       }
       else{
         Available = false;
@@ -260,12 +265,30 @@ app.post('/api/WorkOff', function(req, res){
       res.json(personData);
       })
     }catch(exception){
-      return res.status(500).send({error: 'database failure'});   }
+      return res.status(500).send({error: 'database failure'});  
+     }
      })
 })
 
-app.post('api/outwork', function(req, res){
-
+app.post('/api/outwork', function(req, res){
+  WorkData.find({id: req.query.id}, function(err, workdatas){
+    if(err) return res.status(500).send({error: 'database failure'});
+    if(!workdatas) return res.status(404).json({error: 'data not found'});
+      var outworkTimeTablelength = workdatas[workdatas.length-1].TimeTable.outworkTimeTable.length;
+      console.log(outworkTimeTablelength)
+      var worker = workdatas[workdatas.length-1].TimeTable.outworkTimeTable[outworkTimeTablelength];
+      worker.outworkTime = new Date();
+      worker.longitude = req.query.longitude;
+      worker.latitude = req.query.latitude;
+      //console.log(worker);
+      worker.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({result: 0});
+          return;
+        }
+      })
+  })
 })
 
 //TEST
