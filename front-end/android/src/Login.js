@@ -23,7 +23,7 @@ export default class Login extends React.Component {
         this.state = {
             id: '',
             password: '',
-            isLoggedIn: false,
+            isLoggedIn: true,
         }
     }
 
@@ -47,7 +47,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <>
-                {this.state.isLoggedIn ? <Main id={this.state.id} /> :
+                {this.state.isLoggedIn ? <Main id={'test1'} /> :
                     <SafeAreaView style={styles.safeAreaView}>
                         <ScrollView
                             contentInsetAdjustmentBehavior="automatic"

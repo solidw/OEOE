@@ -4,10 +4,8 @@ import React from 'react';
 import {
   View,
   Text,
-  StatusBar,
 } from 'react-native';
 
-import Main from './src/Main.js';
 import Login from './src/Login.js';
 import 'react-native-gesture-handler';
 class App extends React.Component {

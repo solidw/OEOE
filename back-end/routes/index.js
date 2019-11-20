@@ -168,47 +168,61 @@ app.post('/api/storeReport', function(req, res){
 //Right After LogIN
 app.get('/api/StandardInformation', function(req, res){
   WorkData.find({id: req.query.id}, function(err, workdatas){
-    var date = new Date();
-    var length = workdatas.length;
-    var recentWorkTime = workdatas[length-1].TimeTable.workOn.toLocaleTimeString();
-    // console.log(available.toLocaleDateString());
-    var Available = true;
-    if(recentWorkTime != null && recentWorkTime == date.toLocaleDateString()){
-      Available = true;
+    if(err) return res.status(500).send({error: 'database failure'});
+    if(!workdatas) return res.status(404).json({error: 'data not found'});
+    try{
+      var date = new Date();
+      var length = workdatas.length;
+      var recentWorkTime = workdatas[length-1].TimeTable.workOn;
+      var Available = true;
+      if(recentWorkTime != null && recentWorkTime.getDate() == date.getDate()){ 
+        Available = true;
+      }
+      else{
+        Available = false;
+      }
+      var personData = {available: Available, workingTimePerWeek : workdatas[length-1].TimeTable.workingTimePerWeek, recentWorkOnTime: recentWorkTime.toLocaleTimeString()};
+      res.json(personData);
     }
-    else{
-      Available = false;
-    }
-    var personData = {available: Available, workingTimePerWeek : workdatas[length-1].TimeTable.workingTimePerWeek, recentWorkOnTime: recentWorkTime};
-    res.json(personData);
+   catch(exception){
+    return res.status(500).send({error: 'failure'});   }
   })
 })
 
 //Click WorkOn
-app.post('/api/WorkOn', function(req, res){
+app.post('/api/WorkOn', async function(req, res){
   var workdata = new WorkData();
   workdata.id = req.query.id;
   workdata.TimeTable.workOn = new Date();
   workdata.TimeTable.longitude = req.query.longitude;
   workdata.TimeTable.latitude = req.query.latitude;
 
-  WorkData.find({id: req.query.id}, function(err, workdatas){
+  await WorkData.find({id: req.query.id}, function(err, workdatas){
     if(err) return res.status(500).send({error: 'database failure'});
     if(!workdatas) return res.status(404).json({error: 'data not found'});
-    var identifyWeek = workdata.TimeTable.workOn.getDay(); 
-    if(identifyWeek == 1){//monday
-      workdata.TimeTable.workingTimePerWeek = 0;
+    try{
+    var identifyDay = workdata.TimeTable.workOn.getDay(); 
+    if(identifyDay == 1){//monday
+      workdatas.TimeTable.workingTimePerWeek = 0;
     }else{//else
-      var length = workdata.length-1;
+      var length = workdatas.length-1;
       var weekWorkingHours = 0;
-      for(var i = identifyWeek; i >1; i--){
-        if(workdatas[length].TimeTable.workOn.getDate()<=workdata.TimeTable.workOn.getDate()-7){
+      while(workdata.TimeTable.workOn.getDate()-7 <= workdatas[length].TimeTable.workOn.getDate()){
+        if(identifyDay == 1){
           break;
         }
+        if(identifyDay == 0){
+          identifyDay = 7;
+        }
+        if(workdatas[length].TimeTable.workOn.getDate()==workdata.TimeTable.workOn.getDate()){
+          length--;
+          continue;
+        }
+        identifyDay--;        
         weekWorkingHours += workdatas[length].TimeTable.workingTimePerWeek;
         length--;
       }
-      workdata.TimeTable.workingTimePerWeek = workdatas[workdatas.length-1].TimeTable.workingTimePerWeek;
+      workdata.TimeTable.workingTimePerWeek = weekWorkingHours;
     }
     workdata.save(function(err){
       if(err){
@@ -216,32 +230,42 @@ app.post('/api/WorkOn', function(req, res){
         res.json({result: 0});
         return;
       }
-      var personData = {statusCode: 200, workOnTime : workdata.TimeTable.workOn.toLocaleTimeString};
+      var personData = {statusCode: 200, workOnTime : workdata.TimeTable.workOn.toLocaleTimeString()};
       res.json(personData);
     })
-  })
+}catch(exception){
+ return res.status(500).send({error: 'database failure'});   }
+})
 })
 
 //Click WorkOff
 app.post('/api/WorkOff', function(req, res){
   WorkData.find({id: req.query.id}, function(err, workdatas){
-    var worker = workdatas[workdatas.length-1];
-    worker.TimeTable.workOff = new Date(+10000);
-    worker.TimeTable.longitude = req.query.longitude;
-    worker.TimeTable.finish_latitude = req.query.latitude;
-    var currentWorkingHours = (worker.TimeTable.workOff.getTime()-worker.TimeTable.workOn.getTime());
-   // console.log(parseInt(currentWorkingHours/(1000 * 60 * 60)));
-    worker.TimeTable.workingTimePerWeek += currentWorkingHours;
-    worker.save(function(err){
-      if(err){
-        console.error(err);
-        res.json({result: 0});
-        return;
-      }
-    var personData = {statusCode: 200, workOffTime : worker.TimeTable.workOff.toLocaleTimeString};
-    res.json(personData);
-    })
-  })
+    if(err) return res.status(500).send({error: 'database failure'});
+    if(!workdatas) return res.status(404).json({error: 'data not found'});
+    try{
+      var worker = workdatas[workdatas.length-1];
+      worker.TimeTable.workOff = new Date();
+      worker.TimeTable.longitude = req.query.longitude;
+      worker.TimeTable.finish_latitude = req.query.latitude;
+      var currentWorkingHours = parseInt((worker.TimeTable.workOff.getTime()-worker.TimeTable.workOn.getTime())/(1000 * 60 * 60));
+      worker.TimeTable.workingTimePerWeek += currentWorkingHours;
+      worker.save(function(err){
+        if(err){
+          console.error(err);
+          res.json({result: 0});
+          return;
+        }
+        var personData = {statusCode: 200, workOffTime : worker.TimeTable.workOff.toLocaleTimeString()};
+      res.json(personData);
+      })
+    }catch(exception){
+      return res.status(500).send({error: 'database failure'});   }
+     })
+})
+
+app.post('api/outwork', function(req, res){
+
 })
 
 //TEST
@@ -252,5 +276,4 @@ app.get('/api/test', function(req, res){
     res.json(employee);
   })
 })
-
 }

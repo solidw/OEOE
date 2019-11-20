@@ -11,9 +11,9 @@ var ReportSchema = new Schema({
 });
 
 module.exports = mongoose.model('Report', ReportSchema);
-var date1 = new Date(2019, 10, 4, 9);
-var date2 = new Date(2019, 10, 11, 9);
-var date3 = new Date(2019, 10, 18, 9);
+var date1 = new Date("November 4, 2019 09:00:00");
+var date2 = new Date("November 11, 2019 09:00:00");
+var date3 = new Date("November 18, 2019 09:00:00");
 var Report = mongoose.model('Report', ReportSchema);
 for(var i=1; i<=10; i++) {
     var newReport1 = new Report({id:'test'+i,Reports:{Title:"title"+i, Contents: "contents"+i, submitTime:date1}});

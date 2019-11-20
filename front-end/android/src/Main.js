@@ -7,7 +7,6 @@ import {
     ScrollView,
     View,
     Text,
-    StatusBar,
     TouchableOpacity,
     Image,
 } from 'react-native';
@@ -25,81 +24,133 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // id: this.props.id,
+            id: 'test1',
             isLoaded: false,
             isWorkOnNow: false,
-            workingTimePerWeek: 0,
+            workingTimePerWeek: 10,
             latitude: 0,
             longitude: 0,
-            timeStamp: '',
-            noticeMessage: '',
+            timeStamp: 'default',
+            noticeMessage: `환영합니다.`,
+            isErrorOccured: false,
         };
     }
 
     componentDidMount() {
-        this.setState({
-            isLoaded: true,
-            workingTimePerWeek: 30,
-        })
-        // axios.get('http://wantae.tk:49160').
-        //     then(res => {
-        //         this.setState({ isLoaded: true, workingTimePerWeek: res.data.workingTimePerWeek })
-        //     }).catch(err => console.log(err))
+        this.getLocation().then(axios.get('http://wantae.tk:8080/api/StandardInformation', {
+            params: {
+                id: this.state.id,
+            }
+        }).then(res => {
+            const workOn = res.data.available;
+            if (workOn) {
+                this.setState({
+                    isWorkOnNow: res.data.available,
+                    workingTimePerWeek: res.data.workingTimePerWeek,
+                    timeStamp: res.data.recentWorkOnTime,
+                })
+            }
+            else {
+                this.setState({
+                    isWorkOnNow: res.data.available,
+                    workingTimePerWeek: res.data.workingTimePerWeek,
+                })
+            }
+
+        }).catch(e => {
+            this.setState({
+                isErrorOccured: true,
+                timeStamp: '로딩에 실패했습니다.\n' + e,
+            })
+        }));
+    };
+
+    onClickWorkOn = () => {
+        this.getLocation().then(axios.post('http://wantae.tk:8080/api/workon', null, {
+            params: {
+                id: this.state.id,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+            }
+        }).then(res => {
+            if (!isWorkOnNow) {
+                this.setState({
+                    isWorkOnNow: true,
+                    timeStamp: res.data.workOnTime,
+                    noticeMessage: 'workOn',
+                })
+            }
+            else {
+                alert('이미 출근했습니다.');
+            }
+        }).catch(e => {
+            this.setState({
+                isErrorOccured: true,
+                timeStamp: 'ERROR',
+                noticeMessage: '로딩에 실패했습니다.' + e,
+            })
+        }));
     }
 
-    onClick = (status) => {
-        if ("출근" === status) {
-            axios.get("http://wantae.tk:49160/workOn", {
-                data: {
-                    id: "",
-                    workOnTime: new Date(),
-                }
-            }).then(res => {
-                if (this.state.isWorkOnNow === false) {
-                    this.setState({
-                        isWorkOnNow: true,
-                        timeStamp: { "workOnTime": "" + res.data['workOnTime'] },
-                        noticeMessage: 'workOn',
-                    });
-                    Geolocation.getCurrentPosition(data => {
-                        console.log(data.coords);
-                        this.setState({
-                            latitude: data.coords.latitude,
-                            longitude: data.coords.longitude,
-                        })
-                    });
-                }
-                else {
-                    alert("아직 퇴근하지 않았습니다.");
-                }
-            })
-        }
-
-        else if ("퇴근" === status) {
-            axios.get("http://wantae.tk:49160/workOff", {
-                data: {
-                    id: "",
-                    workOnTime: new Date(),
-                }
-            }).then(res => {
-                if (this.state.isWorkOnNow === true) {
-                    this.setState({
-                        isWorkOnNow: false,
-                        timeStamp: { "workOffTime": "" + res.data['workOffTime'] },
-                    });
-                    Geolocation.getCurrentPosition(data => {
-                        this.setState({
-                            latitude: data.coords.latitude,
-                            longitude: data.coords.longitude,
-                        })
-                    });
-                }
-                else {
-                    alert("아직 출근하지 않았습니다.");
-                }
+    onClickWorkOff = () => {
+        this.getLocation().then(axios.post('http://wantae.tk:8080/api/workoff', null, {
+            params: {
+                id: this.state.id,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
             }
-            )
-        }
-    };
+        }).then(res => {
+            if (isWorkOnNow) {
+                this.setState({
+                    isWorkOnNow: false,
+                    timeStamp: res.data.workOffTime,
+                    noticeMessage: 'workOff',
+                })
+            }
+            else {
+                alert('이미 출근했습니다.')
+            }
+        }).catch(e => {
+            this.setState({
+                isErrorOccured: true,
+                timeStamp: 'ERROR',
+                noticeMessage: '로딩에 실패했습니다.' + e,
+            })
+        }));
+    }
+
+    onClickOutWork = () => {
+        this.getLocation().then(axios.post('http://wantae.tk:8080/api/outwork', null, {
+            params: {
+                id: this.state.id,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+            }
+        }).then(res => {
+            this.setState({
+                timeStamp: res.data.outWorkTime,
+                noticeMessage: 'outWork',
+            })
+        }).catch(e => {
+            this.setState({
+                isErrorOccured: true,
+                timeStamp: 'ERROR',
+                noticeMessage: '로딩에 실패했습니다.' + e,
+            })
+        }));
+    }
+
+    getLocation = () => {
+        return new Promise((res, rej) => {
+            Geolocation.getCurrentPosition(res => {
+                this.setState({
+                    latitude: res.coords.latitude,
+                    longitude: res.coords.longitude,
+                })
+            }, rej);
+        })
+    }
 
     render() {
         return (
@@ -113,23 +164,37 @@ class Main extends React.Component {
                             <WebLink theme={[{ flex: 0.2 }, styles.shadow]} />
                         </View>
                         <View style={styles.workOnAndOff}>
-                            <TouchableOpacity style={[styles.button1, styles.shadow]} onPress={() => this.onClick('출근')}>
-                                <Text style={styles.buttonText}> {this.state.timeStamp['workOnTime'] ? "출근 시각 : " + this.state.timeStamp['workOnTime'] : "출근"}</Text>
+                            <TouchableOpacity style={[styles.button1, styles.shadow, this.state.noticeMessage === 'workOn' ? isWorkOnStyle(true) : isWorkOnStyle(false)]} onPress={this.onClickWorkOn}>
+                                <Text style={styles.buttonText}> {"출근"}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button2, styles.shadow]} onPress={() => this.onClick('퇴근')}>
-                                <Text style={styles.buttonText}>{this.state.timeStamp['workOffTime'] ? "퇴근 시각 : " + this.state.timeStamp['workOffTime'] : "퇴근"}</Text>
+                            <TouchableOpacity style={[styles.button2, styles.shadow, this.state.noticeMessage === 'workOff' ? isWorkOnStyle(true) : isWorkOnStyle(false)]} onPress={this.onClickWorkOff}>
+
+                                <Text style={styles.buttonText}>{"퇴근"}</Text>
                             </TouchableOpacity>
+                        </View>
+                        <View style={styles.workOnAndOff}>
+                            {this.state.isWorkOnNow ? <TouchableOpacity style={[styles.outWorkButton, styles.shadow]} onPress={this.onClickOutWork}>
+                                <Text style={styles.buttonText}>외근</Text>
+                            </TouchableOpacity> : null}
+
+                            <Text style={styles.buttonText}>
+                                {this.state.timeStamp === 'default' ?
+                                    `환영합니다.` : this.state.isWorkOnNow ?
+                                        this.state.noticeMessage === 'outWork' ? `외근이 기록되었습니다. ${this.state.timeStamp}` : `출근 시각 : ${this.state.timeStamp}`
+                                        : `퇴근 시각 : ${this.state.timeStamp}`}
+
+                            </Text>
                         </View>
                         <View style={styles.workOnAndOff}>
                             <View style={[styles.progressBar, styles.shadow]}>
                                 <View style={currentProgressBarStyle(this.state.workingTimePerWeek)}>
                                     <Text style={styles.progressBarText}>
-                                        {this.state.workingTimePerWeek} / 52 Hours
+                                        {this.state.workingTimePerWeek > 20 ? this.state.workingTimePerWeek + "/ 52 Hours" : this.state.workingTimePerWeek}
                                     </Text>
                                 </View>
                             </View>
                         </View>
-                        {this.state.isWorkOnNow ?
+                        <View style={styles.workOnAndOff}>
                             <MapView style={styles.map} initialRegion={{
                                 latitude: this.state.latitude,
                                 longitude: this.state.longitude,
@@ -146,7 +211,8 @@ class Main extends React.Component {
                                 >
                                     <Image source={require('./asset/customMarker.png')} style={styles.markerStyle} />
                                 </Marker>
-                            </MapView> : <Text style={styles.map}>아직 출근하지 않아 지도를 불러오지 않았습니다.</Text>}
+                            </MapView>
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -253,6 +319,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#00BCD4',
         marginLeft: 10,
     },
+    outWorkButton: {
+        flex: 1,
+        justifyContent: 'center',
+        width: 50,
+        borderRadius: 5,
+        backgroundColor: '#00BCD4',
+        marginRight: 10,
+    },
     markerStyle: {
         width: 40,
         height: 40,
@@ -269,4 +343,13 @@ const currentProgressBarStyle = (workingTimePerWeek) => {
     }
 }
 
+const isWorkOnStyle = (cond) => {
+    console.log('isWorkOnStyle : ' + cond);
+    const color = cond ?
+        '#00a3d2' : 'white';
+    return {
+        borderWidth: 2,
+        borderColor: color,
+    }
+}
 export default Main;

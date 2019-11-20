@@ -18,6 +18,7 @@
 .work_td{
     border: 1px solid;
     width: 50px;
+    font-size:14px;
 }
 .table_h{
     width: 46px;
@@ -67,11 +68,12 @@ h2{
 .input_text{
     width: 100%;
     height: 68%;
+    border: 1px solid;
 }
 
 .text_submit{
     position: relative;
-    left: 94%;
+    left: 45%;
     margin-top: 13px;
     width: 63px;
     font-size: 15px;
@@ -88,6 +90,82 @@ h2{
     height: 24px;
     line-height: 15px;
 }
+.list{
+    border: 1px solid;
+    margin: 24px;
+    height: 200px;
+    border-radius: 13px;
+}
+.list:hover {
+  animation-duration: 3s; animation-name: rainbowLink; animation-iteration-count: infinite; 
+} 
+    @keyframes rainbowLink {     
+     0% { color: #ff2a2a; }
+     15% { color: #ff7a2a; }
+     30% { color: #ffc52a; }
+     45% { color: #43ff2a; }
+     60% { color: #2a89ff; }
+     75% { color: #202082; }
+     90% { color: #6b2aff; } 
+     100% { color: #e82aff; }
+    }
+
+    @-webkit-keyframes rainbowLink {     
+      0% { color: #ff2a2a; }
+      15% { color: #ff7a2a; }
+      30% { color: #ffc52a; }
+      45% { color: #43ff2a; }
+      60% { color: #2a89ff; }
+      75% { color: #202082; }
+      90% { color: #6b2aff; } 
+      100% { color: #e82aff; }
+     }
+    
+    .box {
+      
+      }
+      
+      .box select {
+        background-color:#343a40;
+        color: white;
+        border-radius: 6px;
+        width: 250px;
+        border: none;
+    
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        padding-left: 9px;
+      
+        outline: none;
+
+        height: 26px;
+        padding: 0px;
+        font-size: 15px;
+      }
+      
+      .box::before {
+        content: "\f13a";
+        font-family: FontAwesome;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20%;
+        height: 100%;
+        text-align: center;
+        font-size: 28px;
+        line-height: 45px;
+        color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.1);
+        pointer-events: none;
+      }
+      
+      .box:hover::before {
+        color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      
+      .box select option {
+        padding: 30px;
+      }
 
 .modal{
     display: none;
@@ -99,10 +177,20 @@ h2{
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
   }
+  .modal_2{
+    z-index: 10;
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
   .report_list{
-    width: 90%;
+    width: 555px;
     background-color: white;
-    text-align: center;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -111,6 +199,19 @@ h2{
     border: 1px solid #888;
     border-radius: 27px;
     height: 95%;
+  }
+  .report_list_2{
+    overflow: auto;
+    width: 555px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 27px;
+    height: 82%;
   }
   .report_td_1{
     width: 15%;
@@ -130,6 +231,7 @@ h2{
   .input_title{
     display: flex;
     height: 22px;
+    border: 1px solid;
   }
   .title{
     display: flex;
@@ -140,10 +242,64 @@ h2{
     border-bottom: 1px solid;
 }
 .info{
-    width: 100%;
+  font-size: 30px;
     margin-top: 15px;
     width: 85%;
 }
 .info_td_1{
-    width: 19%;
+    width: 23%;
+}
+
+.row{
+    text-align: center;
+}
+
+.work_box{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.table th {
+    padding: .15rem;
+}
+.table{
+    text-align: center;
+}
+.work_2{
+    line-height: 39px;
+}
+.box_2{
+    background-color: #343a40;
+    color: white;
+    border-radius: 6px;
+    width: 250px;
+    border: none;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    padding-left: 9px;
+    outline: none;
+    height: 26px;
+    padding: 0px;
+    font-size: 15px;
+}
+
+.repo_name{
+  font-size: 31px;
+    margin: 12px;
+}
+
+.w_o_d{
+ 
+  border-bottom: 1px solid;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.btn-secondary{
+  height: 28px;
+  line-height: 4px;
+}
+body{
+  font-family: 'Noto Serif KR', serif;
+}
+.sideNav{
+  z-index: -1;
 }

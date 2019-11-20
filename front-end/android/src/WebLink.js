@@ -9,7 +9,7 @@ import {
 
 const WebLink = (props) => {
     return (
-        <TouchableOpacity style={[styles.container, props.theme]} onPress={() => Linking.openURL('https://naver.com')}>
+        <TouchableOpacity style={[styles.container, props.theme]} onPress={() => Linking.openURL('http://wantae.tk/oeoe_web/Login.html')}>
             <Text >Web</Text>
         </TouchableOpacity>
     );
