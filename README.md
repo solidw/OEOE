@@ -90,3 +90,7 @@
 ### 초기 프로젝트의 GANTT CHART
 
 ![GANTT](./doc_data/GANTT.png)
+
+## Example
+
+![example](./doc_data/5MLJOHouXP.gif)
